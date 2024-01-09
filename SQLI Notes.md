@@ -9,7 +9,7 @@
 
 ## Basic SQLI
 - Utilizes single quotes (`'`) to probe for anomalous responses.
-- Boolean conditions employed: `OR 1=1`, `OR 1=2` (FALSE), `OR 'a' = 'b'` (making it TRUE).
+- Boolean conditions employed: `OR 1=1`, `OR 1=2` (FALSE), `OR 'a' is not equal to 'b'` (making it TRUE).
 
 ## SQLI UNION Attacks
 - Exploits applications vulnerable to SQLI to retrieve data from different tables using `UNION`.
@@ -58,8 +58,8 @@
 - Tests server response time to infer SQLI presence, especially useful if the database handles query errors robustly.
 - Database-specific queries.
 - Examples:
-  - `'; IF (1=2) WAITFOR DELAY '0:0:10'—` (no time delay, true condition)
-  - `'; IF (1=1) WAITFOR DELAY '0:0:10'--` (time delay, false condition)
+  - `'; IF (1=1) WAITFOR DELAY '0:0:10'—` (no time delay, true condition)
+  - `'; IF (1=2) WAITFOR DELAY '0:0:10'--` (time delay, false condition)
 - Working example:
   - `';SELECT+CASE+WHEN+(username='administrator' AND SUBSTRING(password,20,1)='§a§')+THEN+pg_sleep(5)+ELSE+pg_sleep(0)+END FROM users—`
 
