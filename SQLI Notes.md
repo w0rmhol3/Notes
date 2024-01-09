@@ -9,7 +9,7 @@
 
 ## Basic SQLI
 - Utilizes single quotes (`'`) to probe for anomalous responses.
-- Boolean conditions employed: `OR 1=1`, `OR 1=2` (FALSE), `OR 'a' = 'b'` (making it TRUE).
+- Boolean conditions employed: `OR 1=1`, `OR 1=2` (FALSE), `OR 'a' is not equal to 'b'` (making it TRUE).
 
 ## SQLI UNION Attacks
 - Exploits applications vulnerable to SQLI to retrieve data from different tables using `UNION`.
